@@ -188,13 +188,13 @@ describe("Challenge07", () => {
       hobby: "hiking",
     };
     expect(objLat(first_Person)).toStrictEqual(
-      "my name is John Doe I am 42 YO, and I love Reading."
+      "my name is John Doe I am 42 YO, and I love Reading.",
     );
     expect(objLat(second_Person)).toStrictEqual(
-      "my name is Jane Doe I am 33 YO, and I love Campaign."
+      "my name is Jane Doe I am 33 YO, and I love Campaign.",
     );
     expect(objLat(third_Person)).toStrictEqual(
-      "my name is Mark Kimberly I am 25 YO, and I love hiking."
+      "my name is Mark Kimberly I am 25 YO, and I love hiking.",
     );
   });
 });

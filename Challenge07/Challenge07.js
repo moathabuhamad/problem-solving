@@ -13,17 +13,18 @@
 //   'my name is Jaber Saleh I am 67 YO, and I love Gaming and Sleeping.'
 
 //  Note that:
-//  1- The text template is 'my name is * * I am * YO, and I love *.'
+//  1- The text template is 'my name is ** ** I am ** YO, and I love **.'
 //  2- The first letters of the firstName and lastName should be capital letter
 
 // ------------------------
 
 const objLat = (obj) => {
-  // write your code here
-  let firstName =
-    obj.firstName.charAt(0).toUpperCase() + obj.firstName.slice(1);
-  let lastName = obj.lastName.charAt(0).toUpperCase() + obj.lastName.slice(1);
-  return `my name is ${firstName}${lastName} I am ${obj.age} and i love ${obj.hobby} `;
+  function capitalize(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+  return `my name is ${capitalize(obj.firstName)} ${capitalize(
+    obj.lastName,
+  )} I am ${obj.age} YO, and I love ${obj.hobby}.`;
 };
 
 // 2) ---------------------
@@ -88,12 +89,21 @@ const objLat = (obj) => {
 // ------------------------
 const cvFormatter = (arr) => {
   // write your code here
-  arr.map((obj) => {
-    return {
-      fullName: obj.firstName + obj.lastName,
-      tech: obj.tech,
-    };
-  });
+  let result = [];
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i].yearsOfExperience > 1) {
+      result.push({
+        fullName:
+          arr[i].lastName != null && arr[i].firstName != null
+            ? `${arr[i].firstName} ${arr[i].lastName}`
+            : arr[i].firstName == null
+            ? `${arr[i].lastName}`
+            : `${arr[i].firstName}`,
+        tech: `${arr[i].tech}`,
+      });
+    }
+  }
+  return result;
 };
 
 // 3) ---------------------
@@ -102,12 +112,12 @@ const cvFormatter = (arr) => {
 //  using the array of object you will be getting, return an object that has the following properties
 //
 // let result = {
-// python_Devs: 0,
-// javaScript_Devs: 0,
-// dotNet_Devs: 0,
-// java_Devs: 0,
-// totalApplicants: 0,
-// rejectedApplicants: 0,
+//     python_Devs: 0,
+//     javaScript_Devs: 0,
+//     dotNet_Devs: 0,
+//     java_Devs: 0,
+//     totalApplicants: 0,
+//     rejectedApplicants: 0,
 // }
 //
 // and fill it up based on the results
@@ -117,7 +127,6 @@ const cvFormatter = (arr) => {
 
 // ------------------------
 const applicationsStatics = (arr) => {
-  // write your code here
   let result = {
     python_Devs: 0,
     javaScript_Devs: 0,
@@ -126,24 +135,147 @@ const applicationsStatics = (arr) => {
     totalApplicants: 0,
     rejectedApplicants: 0,
   };
-  arr.forEach((applicant) => {
-    result.totalApplicants++;
 
-    if (applicant.tech === "Java") {
-      result.java_Devs++;
-    } else if (applicant.tech === "Python") {
-      result.python_Devs++;
-    } else if (applicant.tech === "JS") {
-      result.javaScript_Devs++;
-    } else if (applicant.tech === ".Net") {
-      result.dotNet_Devs++;
+  for (let i = 0; i < arr.length; i++) {
+    result.totalApplicants = result.totalApplicants + 1;
+    result.python_Devs =
+      arr[i].tech == "Python" ? result.python_Devs + 1 : result.python_Devs;
+    result.javaScript_Devs =
+      arr[i].tech == "JS" ? result.javaScript_Devs + 1 : result.javaScript_Devs;
+    result.dotNet_Devs =
+      arr[i].tech == ".Net" ? result.dotNet_Devs + 1 : result.dotNet_Devs;
+    result.java_Devs =
+      arr[i].tech == "Java" ? result.java_Devs + 1 : result.java_Devs;
+    if (
+      arr[i].yearsOfExperience < 1 ||
+      arr[i].firstName == null ||
+      arr[i].lastName == null
+    ) {
+      result.rejectedApplicants = result.rejectedApplicants + 1;
     }
-    if (applicant.yearsOfExperience < 1 || !obj.firstName || !obj.lastName) {
-      result.rejectedApplicants++;
-    }
-  });
+  }
+  return result;
 };
 
 // 4) ---------------------
 //
-//  A Certain School principal…
+//  A Certain School principal wants to calculate the average score of each class in each grade in the school
+//  so he requested a programmer to solve this issue for him instead of doing it again every time
+//
+//  given the school data, calculate the average score of the students of each class in each grade
+//  then change the avg value for the class
+//  EX:
+
+let data = {
+  SchoolName: "David Academy",
+  Capacity: 1000,
+  grades: [
+    {
+      grade: "First",
+      numberOFClasses: 3,
+      classes: [
+        {
+          avg: 0,
+          classNumber: "01",
+          classScores: [89, 87, 45, 48, 89, 65, 21, 54, 78, 62, 51, 54, 50, 49],
+        },
+        {
+          avg: 0,
+          classNumber: "02",
+          classScores: [
+            87, 54, 95, 45, 41, 51, 25, 63, 58, 47, 64, 51, 98, 100,
+          ],
+        },
+        {
+          avg: 0,
+          classNumber: "03",
+          classScores: [74, 85, 20, 51, 59, 58, 62, 71, 74, 99, 84, 71, 38, 70],
+        },
+      ],
+    },
+    {
+      grade: "Second",
+      numberOFClasses: 2,
+      classes: [
+        {
+          avg: 0,
+          classNumber: "01",
+          classScores: [71, 82, 86, 3, 1, 52, 91, 84, 44, 68, 64, 23, 80, 60],
+        },
+        {
+          avg: 0,
+          classNumber: "02",
+          classScores: [86, 39, 71, 17, 61, 76, 60, 54, 42, 65, 49, 75, 96, 70],
+        },
+      ],
+    },
+    {
+      grade: "Third",
+      numberOFClasses: 2,
+      classes: [
+        {
+          avg: 0,
+          classNumber: "01",
+          classScores: [11, 12, 28, 78, 57, 3, 54, 72, 14, 19, 88, 74, 68, 58],
+        },
+        {
+          avg: 0,
+          classNumber: "02",
+          classScores: [62, 8, 35, 43, 96, 9, 97, 73, 4, 32, 18, 81, 70, 42],
+        },
+      ],
+    },
+    {
+      grade: "Forth",
+      numberOFClasses: 4,
+      classes: [
+        {
+          avg: 0,
+          classNumber: "01",
+          classScores: [63, 71, 93, 87, 83, 85, 67, 49, 62, 45, 38, 48, 58, 52],
+        },
+        {
+          avg: 0,
+          classNumber: "02",
+          classScores: [
+            100, 45, 70, 75, 87, 63, 39, 46, 54, 68, 74, 96, 52, 49,
+          ],
+        },
+        {
+          avg: 0,
+          classNumber: "03",
+          classScores: [97, 54, 80, 95, 69, 31, 88, 84, 50, 81, 67, 34, 41, 87],
+        },
+        {
+          avg: 0,
+          classNumber: "04",
+          classScores: [
+            64, 96, 66, 38, 78, 58, 43, 100, 34, 56, 82, 53, 89, 72,
+          ],
+        },
+      ],
+    },
+  ],
+};
+
+//  Note that:
+//  1- This is not the exact data you will be getting every time and the solution should be dynamic
+//  2- You need to round the average to the nearest lower number
+
+const classesAvg = (data) => {
+  // write your code here
+  for (let i = 0; i < data.grades.length; i++) {
+    for (let j = 0; j < data.grades[i].classes.length; j++) {
+      let sum = 0;
+      for (let z = 0; z < data.grades[i].classes[j].classScores.length; z++) {
+        sum = sum + data.grades[i].classes[j].classScores[z];
+      }
+      data.grades[i].classes[j].avg = Math.floor(
+        sum / data.grades[i].classes[j].classScores.length,
+      );
+    }
+  }
+  return data;
+};
+
+module.exports = { objLat, cvFormatter, applicationsStatics, classesAvg };
